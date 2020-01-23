@@ -20,7 +20,7 @@ class App extends React.Component {
       return (
         <Router>
           <div className="App">
-            <TopNav />
+            <TopNav vehicleData={this.state.vehicleData} />
             <div className="contentArea">
               <Route exact path="/" component={Home} />
             </div>
