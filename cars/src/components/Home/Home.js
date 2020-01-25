@@ -1,17 +1,20 @@
 import React from "react";
 import "./Home.css";
-import Carousel from "../Carousel/Carousel";
+import SiteCarousel from "../SiteCarousel/SiteCarousel";
 import VehicleBrowser from "../VehicleBrowser/VehicleBrowser";
 
 class Home extends React.Component {
   render() {
-    return (
-      <div>
-        <h2>This is the Landing Page...</h2>
-        <Carousel />
-        <VehicleBrowser />
-      </div>
-    );
+    if (this.props.vehicleData) {
+      return (
+        <div>
+          <SiteCarousel vehicleData={this.props.vehicleData} />
+          <VehicleBrowser vehicleData={this.props.vehicleData} />
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 }
 export default Home;
