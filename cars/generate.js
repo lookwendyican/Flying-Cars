@@ -21,7 +21,7 @@ module.exports = function() {
             "red"
           ]
         ],
-        carouselImage: "/images/carousel/jumper-01.png",
+        carouselImage: "/images/carousel/jumper-01.jpg",
         altText: "2018 Jumper J-1",
         caption: "2018 Jumper J-1",
         description:

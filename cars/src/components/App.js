@@ -34,6 +34,7 @@ class App extends React.Component {
                   <Home {...props} vehicleData={this.state.vehicleData} />
                 )}
               />
+              <Route path="/find-a-dealer" component={DealerLocator} />
             </div>
             <Footer />
           </div>
