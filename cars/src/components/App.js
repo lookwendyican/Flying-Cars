@@ -2,6 +2,7 @@ import React from "react";
 import TopNav from "./TopNav/TopNav";
 import Home from "./Home/Home";
 import Footer from "./Footer/Footer";
+import DealerLocator from "./DealerLocator/DealerLocator";
 import Axios from "axios";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 

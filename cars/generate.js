@@ -197,7 +197,7 @@ module.exports = function() {
     dealerships: _.times(100, function(n) {
       return {
         id: n,
-        dealershipName: faker.name.findName() + "'s Flying Cars.",
+        dealershipName: faker.name.findName() + "'s Flying Cars",
         address: faker.address.streetAddress("####"),
         city: faker.address.city(),
         state: faker.address.state(),
