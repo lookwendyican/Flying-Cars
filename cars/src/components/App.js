@@ -5,6 +5,7 @@ import Footer from "./Footer/Footer";
 import DealerLocator from "./DealerLocator/DealerLocator";
 import Axios from "axios";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import TestFlightForm from "./TestFlightForm/TestFlightForm";
 
 class App extends React.Component {
   constructor(props) {
@@ -36,6 +37,7 @@ class App extends React.Component {
                 )}
               />
               <Route path="/find-a-dealer" component={DealerLocator} />
+              <Route path="/schedule-test-flight" component={TestFlightForm} />
             </div>
             <Footer />
           </div>

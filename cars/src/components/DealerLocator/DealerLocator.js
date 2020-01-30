@@ -15,20 +15,33 @@ import {
   InputGroupAddon
 } from "reactstrap";
 import "./DealerLocator.css";
+
 class DealerLocator extends React.Component {
   constructor(props) {
     super(props);
     this.state = { searchTerm: "", dealerships: null };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.onClearClicked = this.onClearClicked.bind(this);
+    this.onListClick = this.onListClick.bind(this);
   }
 
   componentDidMount() {
     Axios.get("http://localhost:3001/dealerships")
       .then(res => {
-        this.setState({ dealerships: res.data });
+        let stateCounter = res.data.reduce(function(dealerStateCount, dealer) {
+          dealerStateCount[dealer.state] =
+            (dealerStateCount[dealer.state] || 0) + 1;
+          return dealerStateCount;
+        }, this);
+        this.setState({ dealerships: res.data, stateCounter: stateCounter });
       })
       .catch(err => console.log(err));
+  }
+
+  onListClick(eventData) {
+    eventData.preventDefault();
+    const stateClicked = eventData.target.text.split(" ")[0];
+    this.setState({ searchTerm: stateClicked });
   }
 
   handleInputChange(eventData) {
@@ -39,6 +52,7 @@ class DealerLocator extends React.Component {
     eventData.preventDefault();
     this.setState({ searchTerm: "" });
   }
+
   render() {
     if (this.state.dealerships) {
       const filteredStubData = this.state.dealerships.filter(d =>
@@ -49,7 +63,6 @@ class DealerLocator extends React.Component {
           <h1>
             Over {this.state.dealerships.length} Authorized Dealers Nationwide
           </h1>
-
           <Row>
             <Col sm={12} md={{ size: 6, offset: 3 }}>
               <Form>
@@ -59,9 +72,10 @@ class DealerLocator extends React.Component {
                       type="text"
                       onChange={this.handleInputChange}
                       value={this.state.searchTerm}
-                      name="user address"
-                      placeholder="We are probably nearby.  What state are you in?"
+                      name="user_address"
+                      placeholder="We're probably nearby.  What state are you in?"
                     />
+
                     <InputGroupAddon addonType="append">
                       <Button onClick={this.onClearClicked}>X</Button>
                     </InputGroupAddon>
@@ -72,44 +86,83 @@ class DealerLocator extends React.Component {
           </Row>
         </div>
       );
+      if (this.state.searchTerm.length < 4) {
+        let stateCounterMarkup = null;
+        if (this.state.stateCounter) {
+          stateCounterMarkup = (
+            <Row>
+              <Col sm={12} md={{ size: 4, offset: 4 }}>
+                <ListGroup>
+                  {Object.keys(this.state.stateCounter)
+                    .sort()
+                    .map(function(key, i) {
+                      if (typeof this.state.stateCounter[key] === "number") {
+                        return (
+                          <ListGroupItem
+                            tag="a"
+                            href="#"
+                            key={key + i}
+                            onClick={this.onListClick}
+                            className="d-flex justify-content-between"
+                          >
+                            {key}
+                            {"   "}
+                            <Badge pill>{this.state.stateCounter[key]}</Badge>
+                          </ListGroupItem>
+                        );
+                      }
+                    }, this)}
+                </ListGroup>
+              </Col>
+            </Row>
+          );
+          return (
+            <div>
+              {searchBar}
+              {stateCounterMarkup}
+            </div>
+          );
+        }
+      } else {
+        return (
+          <div>
+            {searchBar}
 
-      return (
-        <div>
-          {searchBar}
-          <Row>
-            <Col sm={12} md={{ size: 10, offset: 1 }}>
-              <Table>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Dealership</th>
-                    <th>Address</th>
-                    <th>City</th>
-                    <th>State</th>
-                    <th>Zip Code</th>
-                    <th>Phone</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredStubData.map((item, i) => {
-                    return (
-                      <tr key={item.phone}>
-                        <td>{String(i)}</td>
-                        <td>{item.dealershipName}</td>
-                        <td>{item.address}</td>
-                        <td>{item.city}</td>
-                        <td>{item.state}</td>
-                        <td>{item.zip}</td>
-                        <td>{item.phone}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
-            </Col>
-          </Row>
-        </div>
-      );
+            <Row>
+              <Col sm={12} md={{ size: 10, offset: 1 }}>
+                <Table>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Dealership</th>
+                      <th>Address</th>
+                      <th>City</th>
+                      <th>State</th>
+                      <th>Zip</th>
+                      <th>Phone</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredStubData.map((item, i) => {
+                      return (
+                        <tr key={item.phone}>
+                          <td>{String(i)}</td>
+                          <td>{item.dealershipName}</td>
+                          <td>{item.address}</td>
+                          <td>{item.city}</td>
+                          <td>{item.state}</td>
+                          <td>{item.zip}</td>
+                          <td>{item.phone}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </Table>
+              </Col>
+            </Row>
+          </div>
+        );
+      }
     } else {
       return null;
     }
