@@ -1,7 +1,4 @@
-h1 {
-  text-align: center;
-}
-/* .dealer-background {
+body {
   margin: 0;
   width: 100%;
   height: 100vh;
@@ -41,4 +38,4 @@ a {
   100% {
     background-position: 0% 50%;
   }
-} */
+}
