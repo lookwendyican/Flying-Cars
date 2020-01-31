@@ -117,7 +117,7 @@ class DealerLocator extends React.Component {
             </Row>
           );
           return (
-            <div>
+            <div className="dealer-background">
               {searchBar}
               {stateCounterMarkup}
             </div>
@@ -125,7 +125,7 @@ class DealerLocator extends React.Component {
         }
       } else {
         return (
-          <div>
+          <div className="dealer-background">
             {searchBar}
 
             <Row>
