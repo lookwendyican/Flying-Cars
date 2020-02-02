@@ -1,10 +1,10 @@
 import React from "react";
 import classnames from "classnames";
 import "./BuildAndPrice.css";
-import ColorPicker from "../ColorPicker/ColorPicker";
+//import ColorPicker from "../ColorPicker/ColorPicker";
 import ModelPicker from "../ModelPicker/ModelPicker";
-import EnginePicker from "../EngineSelector/EngineSelector";
-import TestFlightForm from "../TestFlightForm/TestFlightForm";
+//import EnginePicker from "../EngineSelector/EngineSelector";
+//import TestFlightForm from "../TestFlightForm/TestFlightForm";
 import BuildAndPriceImageRotator from "../BuildAndPriceImageRotator/BuildAndPriceImageRotator";
 import Numeral from "numeral";
 import {
@@ -20,7 +20,8 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  Progress
+  Progress,
+  CardTitle
 } from "reactstrap";
 
 class BuildAndPrice extends React.Component {
@@ -31,7 +32,7 @@ class BuildAndPrice extends React.Component {
     this.selectColor = this.selectColor.bind(this);
     this.selectEngine = this.selectEngine.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
-    this.determineProgress = this.determineProgress.bind(this);
+    //this.determineProgress = this.determineProgress.bind(this);
     this.computePrice = this.computePrice.bind(this);
     this.state = {
       activeTab: "1", //currently displayed tab (note it starts at 1 not 0)
@@ -51,7 +52,13 @@ class BuildAndPrice extends React.Component {
   }
 
   selectVehicle(eventData) {
-    //TODO:  this method will handle the user selecting a vechicle
+    const selected = eventData.target.dataset.model;
+    const msrp = eventData.target.dataset.msrp;
+    this.setState({
+      activeTab: "2",
+      msrp: msrp,
+      selectedVehicle: selected
+    });
   }
 
   selectColor(eventData) {
@@ -62,8 +69,12 @@ class BuildAndPrice extends React.Component {
     //TODO:  this method will store the user's engine selection
   }
 
-  toggleModal() {
-    //TODO:  this method controls showing and hiding the modal form displayed at the end
+  toggleModal(tab) {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab
+      });
+    }
   }
 
   computePrice() {
@@ -94,6 +105,65 @@ class BuildAndPrice extends React.Component {
         <h5>
           Price as configured: {Numeral(this.computePrice()).format("$0,0.00")}
         </h5>
+        <Nav tabs>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: this.state.activeTab === "1" })}
+              onClick={() => {
+                this.toggle("1");
+              }}
+            >
+              Model
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: this.state.activeTab === "2" })}
+              onClick={() => {
+                this.toggle("2");
+              }}
+            >
+              Color
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: this.state.activeTab === "3" })}
+              onClick={() => {
+                this.toggle("3");
+              }}
+            >
+              Engine
+            </NavLink>
+          </NavItem>
+        </Nav>
+        <CardTitle activeTab={this.state.activeTab}>
+          <TabPane tabId="1">
+            <Row>
+              <Col sm="12">
+                <ModelPicker
+                  vehicleData={this.props.vehicleData}
+                  selectedVehicle={this.props.selectedVehicle}
+                  selectVehicle={this.selectedVehicle}
+                ></ModelPicker>
+              </Col>
+            </Row>
+          </TabPane>
+          <TabPane tabId="2">
+            <Row>
+              <Col sm="12">
+                <h4>Color Picker goes here</h4>
+              </Col>
+            </Row>
+          </TabPane>
+          <TabPane tabId="3">
+            <Row>
+              <Col sm="12">
+                <h4>Engine Picker goes here</h4>
+              </Col>
+            </Row>
+          </TabPane>
+        </CardTitle>
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import React from "react";
-import "./ModelPicker.css";
+//import "./ModelPicker.css";
 import ModelPickerCollapse from "../ModelPickerCollapse/ModelPickerCollapse";
 import { Row, Col } from "reactstrap";
 class ModelPicker extends React.Component {
@@ -8,7 +8,23 @@ class ModelPicker extends React.Component {
   }
 
   render() {
-    return <h2>Pick the model you want to build</h2>;
+    return (
+      <div>
+        <Row>
+          <Col sm={12}>
+            {this.props.vehicleData.map((vehicle, i) => {
+              return (
+                <ModelPickerCollapse
+                  key={"model-picker-" + vehicle.detailKey}
+                  selectedVehicle={vehicle}
+                  selectVehicle={this.props.selectedVehicle}
+                />
+              );
+            }, this)}
+          </Col>
+        </Row>
+      </div>
+    );
   }
 }
 

@@ -7,6 +7,10 @@ class ColorPicker extends React.Component {
   }
 
   render() {
+    const selectedVehicleData = this.props.vehicleData.filter(
+      vehicle => vehicle.detailKey === this.props.selectedVehicle
+    )[0];
+    console.log(selectedVehicleData);
     if (selectedVehicleData) {
       return <h2>Color picker goes here</h2>;
     } else {

@@ -7,6 +7,7 @@ import Axios from "axios";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import TestFlightForm from "./TestFlightForm/TestFlightForm";
 import VehicleDetail from "./VehicleDetail/VehicleDetail";
+import BuildAndPrice from "./BuildAndPrice/BuildAndPrice";
 import "./App.css";
 
 class App extends React.Component {
@@ -44,6 +45,16 @@ class App extends React.Component {
                 path="/detail/:selectedVehicle"
                 render={props => (
                   <VehicleDetail
+                    {...props}
+                    vehicleData={this.state.vehicleData}
+                  />
+                )}
+              />
+
+              <Route
+                path="/build-and-price"
+                render={props => (
+                  <BuildAndPrice
                     {...props}
                     vehicleData={this.state.vehicleData}
                   />

@@ -25,11 +25,13 @@ class VehicleBrowser extends React.Component {
           <Card>
             <CardImg top width="100%" src={item.thumbnail} alt={item.altText} />
             <CardBody>
-              <CardTitle>
-                {item.year} {item.model}
+              <CardTitle className="text-center ctitle">
+                {item.modelYear} {item.model}
               </CardTitle>
-              <CardSubtitle> {item.tagline} </CardSubtitle>
-              <CardText>Starts at {Numeral(item.msrp).format("$0,0")}</CardText>
+              <CardSubtitle className="center"> {item.tagline} </CardSubtitle>
+              <CardText className="center">
+                Starts at {Numeral(item.msrp).format("$0,0")}
+              </CardText>
               <NavLink href={"/detail/" + item.detailKey}>Details</NavLink>
               <NavLink href="/build-and-price">Build and Price</NavLink>
               <NavLink href="/find-a-dealer">Dealers Near Your</NavLink>
