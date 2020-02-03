@@ -4,4 +4,13 @@
 
 .card-body {
   max-width: 760px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.centerCard {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

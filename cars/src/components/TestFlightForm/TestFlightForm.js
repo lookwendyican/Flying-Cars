@@ -57,8 +57,8 @@ class TestFlightForm extends React.Component {
 
   render() {
     return (
-      <div>
-        <Card>
+      <div className="container">
+        <Card className="centerCard">
           <CardBody className="card-body">
             <CardTitle className="center">
               {" "}

@@ -14,6 +14,7 @@ import {
 } from "reactstrap";
 
 import { Link } from "react-router-dom";
+import "./TopNav.css";
 
 class TopNav extends React.Component {
   toggle = this.toggle.bind(this);

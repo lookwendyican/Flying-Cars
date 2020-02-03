@@ -9,6 +9,14 @@ import {
 class EngineSelector extends React.Component {
   constructor(props) {
     super(props);
+    this.toggle = this.toggle.bind(this);
+    this.state = { dropDownOpen: false };
+  }
+
+  toggle() {
+    this.setState(prevState => ({
+      dropDownOpen: !prevState.dropDownOpen
+    }));
   }
 
   render() {
@@ -17,7 +25,28 @@ class EngineSelector extends React.Component {
     )[0];
     console.log(selectedVehicleData);
     if (selectedVehicleData) {
-      return <h2>Engine Selector</h2>;
+      return (
+        <div>
+          <Dropdown isOpen={this.state.dropDownOpen} toggle={this.toggle}>
+            <DropdownToggle caret>Select an Engine</DropdownToggle>
+            <DropdownMenu>
+              {selectedVehicleData.options.engines.map(function(engine, i) {
+                return (
+                  <DropdownItem
+                    data-engine={i}
+                    data-engine-cost={engine.cost}
+                    data-engine-name={engine.name}
+                    onClick={this.props.onEngineSelect}
+                    key={engine.name}
+                  >
+                    {engine.name}
+                  </DropdownItem>
+                );
+              }, this)}
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+      );
     } else {
       return null;
     }
